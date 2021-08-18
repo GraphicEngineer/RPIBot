@@ -19,7 +19,7 @@ def testServo():
     # Initialize our Servo    
     Servo = servo.ServoController(frequency = 50, servo_pin = 22, min_dutycycle = 2, max_dutycycle = 12)
     for i in range(0,181,45):
-        Servo.setAngle(i)
+        Servo.SetAngle(i)
         time.sleep(1)
     
 
@@ -29,9 +29,9 @@ def testReceiver():
     #Down = 2000, Up = 1000
     #SW C
     #Down = 2000, Middle = 1500, Up = 1000
-    CH1 = pwm.PWMController(frequency = 1000, gpioPinPWMInput = FSIA6B['ch1'])
-    CH5 = pwm.PWMController(frequency = 1000, gpioPinPWMInput = FSIA6B['ch5'])
-    CH6 = pwm.PWMController(frequency = 1000, gpioPinPWMInput = FSIA6B['ch6'])
+    CH1 = pwm.PWMController(1000, FSIA6B['ch1'])
+    CH5 = pwm.PWMController(1000, FSIA6B['ch5'])
+    CH6 = pwm.PWMController(1000, FSIA6B['ch6'])
 
     CH1.start()
     CH5.start()
@@ -43,11 +43,9 @@ def testLED():
     led1.setColor('red')
     led1.turnOff()
 
-#for i in range(10):
-#    led1.test(0.05)
     
 while True:
-    #print("CH1[pin: " + str(FSIA6B['ch1']) + "] Width: " + str(CH1.getPulseWidth()))
+    print("CH1[pin: " + str(FSIA6B['ch1']) + "] Width: " + str(CH1.GetPulseWidth()))
     #print("CH5 Width: " + str(CH5.getPulseWidth()))
     #print("CH6 Width: " + str(CH6.getPulseWidth()))
 #    time.sleep(2)

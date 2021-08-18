@@ -7,12 +7,13 @@ import time
 
 class ServoController:
     
-    def __init__(self, frequency, servo_pin, min_dutycycle=5, max_dutycycle=10):
+    def __init__(self, frequency, servo_pin, min_dutycycle=5, max_dutycycle=10, debug=0):
         # passed in args
         self.frequency = frequency
         self.servo_pin = servo_pin
         self.min_dutycycle = min_dutycycle
         self.max_dutycycle = max_dutycycle
+        self.debug = debug;
 
         # pin setup
         GPIO.setup(self.servo_pin, GPIO.OUT)
@@ -20,26 +21,27 @@ class ServoController:
         
         # servo pin pwm instance
         self.pwm = GPIO.PWM(self.servo_pin, frequency)
-        self.pwm.start(0)            
+        self.pwm.Start(0)            
     
     # use seldom, good for internal testing
-    def _setDutyCycle(self, duty):
+    def SetDutyCycle(self, duty):
         self.pwm.ChangeDutyCycle(duty)
         
     # intended for usage
-    def setAngle(self, angle):       
+    def SetAngle(self, angle):       
         # Calculation for angle in degrees to dutycycle for a current servo        
         duty = (angle / 180) * (self.max_dutycycle - self.min_dutycycle) + self.min_dutycycle 
-        print("Angle" + str(angle) + " Duty: " + str(duty))
+        if self.debug:
+            print("ServoController.SetAngle(): Angle=" + str(angle) + " Duty=" + str(duty))
         GPIO.output(self.servo_pin, False)
         self.pwm.ChangeDutyCycle(duty)
         time.sleep(1)
         GPIO.output(self.servo_pin, True)
         self.pwm.ChangeDutyCycle(0)                
         
-    def start(self):
-        self.pwm.start(0)
+    def Start(self):
+        self.pwm.Start(0)
         
-    def stop(self):
-        self.pwm.stop()
+    def Stop(self):
+        self.pwm.Stop()
         
