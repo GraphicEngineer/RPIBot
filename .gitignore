@@ -4,3 +4,4 @@
 
 *.suo
 /.vs
+/classes/__pycache__

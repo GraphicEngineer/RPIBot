@@ -13,20 +13,18 @@ import time
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-# Default pins from early experimentation
-#global pins
-#pins = { 'pin_R':17, 'pin_G':18, 'pin_B':27 }
+class LED:
+    # English color map
+    _COLOR_MAP = {
+	'red':(1,0,0),
+        'green':(0,1,0),
+        'blue':(0,0,1),
+        'yellow':(1,1,0),
+        'cyan':(0,1,1),
+        'purple':(1,0,1),
+        'white':(1,1,1)
+	}
 
-class Led:
-    # Class attributes
-    colorSwatch = { 'red':(1,0,0),
-               'green':(0,1,0),
-               'blue':(0,0,1),
-               'yellow':(1,1,0),
-               'cyan':(0,1,1),
-               'purple':(1,0,1),
-               'white':(1,1,1) }
-    
     def __init__(self, pin_R, pin_G, pin_B):
         self.pins = { }
         self.pins['pin_R'] = pin_R
@@ -36,29 +34,29 @@ class Led:
         for pin in self.pins:
             GPIO.setup(self.pins[pin], GPIO.OUT)
 
-    def setColor(self, color):
+    def set_color(self, color):
         print('Color requested: ' + color)
-        rgbTuple = Led.colorSwatch[color]
+        rgbTuple = LED._COLOR_MAP[color]
         GPIO.output(self.pins['pin_R'], rgbTuple[0])
         GPIO.output(self.pins['pin_G'], rgbTuple[1])
         GPIO.output(self.pins['pin_B'], rgbTuple[2])
 
-    def setRGBColor(self,R,G,B):
+    def set_rgb_color(self,R,G,B):
         print('Received R,G,B: ' + str(R) + str(G) + str(B))
         GPIO.output(self.pins['pin_R'], R)
         GPIO.output(self.pins['pin_G'], G)
         GPIO.output(self.pins['pin_B'], B)
-        
-    def turnOff(self):
+
+    def turn_off(self):
         print('LED Off')
         for pin in self.pins:
             GPIO.output(self.pins[pin], 0)
-            
-    def turnOn(self):
+
+    def turn_on(self):
         print('LED On - White')
         for pin in self.pins:
             GPIO.output(self.pins[pin], 1)
-            
+
     def test(self, speed):
         print('LED Test with speed: ' + str(speed))
         for r in range(2):
@@ -69,6 +67,3 @@ class Led:
                     GPIO.output(self.pins['pin_G'], g)
                     GPIO.output(self.pins['pin_B'], b)
                     time.sleep(speed)
-            
-                    
-    
