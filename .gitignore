@@ -5,3 +5,5 @@
 *.suo
 /.vs
 /classes/__pycache__
+*.save
+

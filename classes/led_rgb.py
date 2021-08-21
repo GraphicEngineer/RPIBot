@@ -25,44 +25,52 @@ class LED:
         'white':(1,1,1)
 	}
 
-    def __init__(self, pin_R, pin_G, pin_B):
+    def __init__(self, pin_R, pin_G, pin_B, debug=False):        
         self.pins = { }
         self.pins['pin_R'] = pin_R
         self.pins['pin_G'] = pin_G
         self.pins['pin_B'] = pin_B
+        self.debug = debug
 
         for pin in self.pins:
             GPIO.setup(self.pins[pin], GPIO.OUT)
 
     def set_color(self, color):
-        print('Color requested: ' + color)
+        if self.debug:
+            print('Color requested: ' + color)
+
         rgbTuple = LED._COLOR_MAP[color]
         GPIO.output(self.pins['pin_R'], rgbTuple[0])
         GPIO.output(self.pins['pin_G'], rgbTuple[1])
         GPIO.output(self.pins['pin_B'], rgbTuple[2])
 
     def set_rgb_color(self,R,G,B):
-        print('Received R,G,B: ' + str(R) + str(G) + str(B))
+        if self.debug:
+            print('Received R,G,B: ' + str(R) + str(G) + str(B))
         GPIO.output(self.pins['pin_R'], R)
         GPIO.output(self.pins['pin_G'], G)
         GPIO.output(self.pins['pin_B'], B)
 
     def turn_off(self):
-        print('LED Off')
+        if self.debug: 
+            print('LED Off')
         for pin in self.pins:
             GPIO.output(self.pins[pin], 0)
 
     def turn_on(self):
-        print('LED On - White')
+        if self.debug:
+            print('LED On - White')
         for pin in self.pins:
             GPIO.output(self.pins[pin], 1)
 
     def test(self, speed):
-        print('LED Test with speed: ' + str(speed))
+        if self.debug:
+            print('LED Test with speed: ' + str(speed))
         for r in range(2):
             for g in range(2):
                 for b in range(2):
-                    print('R: ' + str(r) + ' G: ' + str(g) + ' B: ' + str(b))
+                    if self.debug:                        
+                        print('R: ' + str(r) + ' G: ' + str(g) + ' B: ' + str(b))
                     GPIO.output(self.pins['pin_R'], r)
                     GPIO.output(self.pins['pin_G'], g)
                     GPIO.output(self.pins['pin_B'], b)
